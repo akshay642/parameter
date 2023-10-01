@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2090 hackathon</title>
+    <style>
+    /* Your CSS code with bright high-definition colors, metallic tint, and interactivity */
+    body {
+        background: linear-gradient(135deg, #00aaff, #ff0077);
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        color: #ffffff;
+        transition: background-color 0.3s ease;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 40px;
+        border: 1px solid #ccc; 
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    h1 {
+        color: #ffcc29;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 15px;
+        color: #ffffff;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #000000;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="password"]:focus {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-color: #ffcc29;
+    }
+
+    button {
+        background-color: #ffcc29;
+        color: #222222;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #ffdb58;
+    }
+
+    #output {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 2px solid #666666;
+        border-radius: 5px;
+        display: none;
+        transition: background-color 0.3s ease;
+    }
+
+    #teamCount {
+        color: #abff02;
+        font-weight: bold;
+    }
+
+    /* Hover effect for buttons */
+    button:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
+    /* Interactive background color change on hover */
+    body:hover {
+        background: linear-gradient(135deg, #ff0077, #00aaff);
+    }
+
+    /* Logo section styles */
+    .logo-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .logo img {
+        max-width: 90%;
+        height: auto;
+    }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <div class="logo">
+            <img src="pes.png" alt="Your Logo">
+        </div>
+    </div>
+    <div class="container">
+        <h1>2090 "Innovate-2-Sustain" (Review 1)</h1>
+        <form id="marksForm">
+            <label for="TeamName">Team Name:</label>
+            <input type="text" id="TeamName" required>
+            
+            <label for="Parameter1">Problem statement Understanding (0 to 10 scale):</label>
+            <input type="number" id="Parameter1" min="0" max="100" required>
+            
+            <label for="Parameter2">Approach towards solution/stages (0 to 10 scale):</label>
+            <input type="number" id="Parameter2" min="0" max="100" required>
+            
+            <label for="Parameter3">Industry Analysis (0 to 10 scale):</label>
+            <input type="number" id="Parameter3" min="0" max="100" required>
+            
+            <button type="button" onclick="submitForm()">Submit</button>
+            <button type="button" onclick="promptForPassword()">Access Admin</button>
+
+            <!-- Password input field -->
+            <label for="csvPassword">CSV Password:</label>
+            <input type="password" id="csvPassword" required>
+        </form>
+
+        <div id="output">
+            <h2>Result:</h2>
+            <p><strong>Team Name:</strong> <span id="resultTeamName"></span></p>
+            <p><strong>Total Marks:</strong> <span id="resultTotalMarks"></span></p>
+            <p><strong>Average Marks:</strong> <span id="resultAverageMarks"></span></p>
+        </div>
+        <p><strong>Number of Teams Entered:</strong> <span id="teamCount">0</span></p>
+    </div>
+
+    <script>
+        const data = []; // Array to store entered data
+        let teamCounter = 0; // Counter for the number of teams entered
+        const correctPassword = "akshay123"; // Set your desired password here
+
+        function submitForm() {
+            // Get input values
+            const teamName = document.getElementById("TeamName").value;
+            const parameter1 = parseFloat(document.getElementById("Parameter1").value);
+            const parameter2 = parseFloat(document.getElementById("Parameter2").value);
+            const parameter3 = parseFloat(document.getElementById("Parameter3").value);
+
+            // Calculate total marks
+            const totalMarks = parameter1 + parameter2 + parameter3;
+
+            // Calculate average marks
+            const averageMarks = totalMarks / 4;
+
+            // Store the entered data
+            data.push([teamName, parameter1, parameter2, parameter3, totalMarks, averageMarks.toFixed(2)]);
+
+            // Increment the team counter
+            teamCounter++;
+
+            // Display the result
+            const output = document.getElementById("output");
+            const resultTeamName = document.getElementById("resultTeamName");
+            const resultTotalMarks = document.getElementById("resultTotalMarks");
+            const resultAverageMarks = document.getElementById("resultAverageMarks");
+
+            resultTeamName.textContent = teamName;
+            resultTotalMarks.textContent = totalMarks;
+            resultAverageMarks.textContent = averageMarks.toFixed(2);
+
+            output.style.display = "block"; // Show the result
+
+            // Update the team count
+            const teamCount = document.getElementById("teamCount");
+            teamCount.textContent = teamCounter;
+        }
+
+        function promptForPassword() {
+            const enteredPassword = document.getElementById("csvPassword").value;
+
+            if (enteredPassword === correctPassword) {
+                downloadCSV();
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        }
+
+        function downloadCSV() {
+            // Create a CSV content
+            const csvContent = "Team Name,Parameter 1,Parameter 2,Parameter 3,Total Marks,Average Marks\n" +
+                data.map(row => row.join(",")).join("\n");
+
+            // Create a Blob with the CSV content
+            const blob = new Blob([csvContent], { type: "text/csv" });
+
+            // Create a download link
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "team_marks.csv";
+            document.body.appendChild(a);
+            
+            // Trigger the click event to download
+            a.click();
+
+            // Clean up
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
